@@ -1,4 +1,4 @@
-svg{width:720px;height:600px;border:1px solid black;}
+/*svg{width:720px;height:160px;border:1px solid black;}*/
 .axis text{
 	font-family:sans-serif;
 	font-size: 11px;
@@ -8,6 +8,14 @@ svg{width:720px;height:600px;border:1px solid black;}
 .axis line{
 	fill:none;
 	stroke: black;
+/*	stroke-width:1;*/
+}
+
+#canvasArea{
+/*	display: none;*/
+}
+#footer{
+	margin-left: 50px;
 }
 /*#myGraph rect{
 	stroke: rgb(250,200,200);

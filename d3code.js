@@ -1,37 +1,3 @@
-var dataSet = [300,130,5,60,240];
-//搬送中,搬送遅れ,診察待ち,診察中
-var col = ["#AEC1E3","#AAB1B3","#FFE600","#009F8C"];
-//入電 来院予定 受付 診察開始 診察終了
-var timeCourse = [
-["2015/10/30 7:50:46","2015/10/30 8:03:06","2015/10/30 8:03","",""],
-["2015/10/30 8:03:05","2015/10/30 8:36:47","2015/10/30 9:08","2015/10/30 9:08","2015/10/30 10:39:23"],
-["2015/10/30 9:18:13","2015/10/30 9:34:24","2015/10/30 10:02","2015/10/30 10:02","2015/10/30 13:00"],
-["2015/10/30 12:18:50","2015/10/30 12:26:42","2015/10/30 12:31","2015/10/30 12:31","2015/10/30 13:48:03"],
-["2015/10/30 14:06:11","2015/10/30 14:18:43","2015/10/30 14:24","2015/10/30 14:24","2015/10/30 16:08:43"],
-["2015/10/30 14:11","2015/10/30 14:45:40","2015/10/30 15:07","2015/10/30 14:45:40","2015/10/30 18:00"],
-["2015/10/30 14:33:41","2015/10/30 14:51:44","2015/10/30 14:58","2015/10/30 14:51:44","2015/10/30 18:30"],
-["2015/10/30 15:33:39","2015/10/30 15:46:57","2015/10/30 15:59","2015/10/30 16:08","2015/10/30 22:13:16"],
-["2015/10/30 16:46:20","2015/10/30 16:52:37","2015/10/30 16:59","2015/10/30 17:00","2015/10/30 19:20"],
-["2015/10/30 19:56:55","2015/10/30 20:04:34","2015/10/30 20:21:11","2015/10/30 20:04:34","2015/10/30 22:18:58"],
-["2015/10/30 20:53:45","2015/10/30 21:11:05","2015/10/30 21:16","","2015/10/30 23:55:08"],
-["2015/10/30 22:36:21","2015/10/30 22:49:35","2015/10/30 22:49:35","","2015/10/31 0:26:30"],
-["2015/10/31 9:17:25","2015/10/31 9:27:48","2015/10/31 9:32","2015/10/31 9:32","2015/10/31 13:10:06"],
-["2015/10/31 10:11:06","2015/10/31 11:13:58","2015/10/31 11:18","2015/10/31 11:18","2015/10/31 13:24:31"],
-["2015/10/31 10:24:25","2015/10/31 10:50:04","2015/10/31 10:55","2015/10/31 10:55","2015/10/31 15:09:45"],
-["2015/10/31 11:58:40","2015/10/31 12:31:54","2015/10/31 12:31:54","2015/10/31 12:31:54","2015/10/31 12:40"],
-["2015/10/31 12:25:58","2015/10/31 12:34:19","2015/10/31 12:44","2015/10/31 12:44","2015/10/31 15:19:38"],
-["2015/10/31 14:50:49","2015/10/31 15:18:23","2015/10/31 15:18:23","2015/10/31 15:18:23","2015/10/31 18:50:37"],
-["2015/10/31 15:05:17","2015/10/31 15:06:27","2015/10/31 15:06:27","2015/10/31 15:06:27","2015/10/31 18:23:48"],
-["2015/10/31 15:17:58","2015/10/31 15:51:12","2015/10/31 15:51:12","2015/10/31 15:51:12","2015/10/31 20:01:55"],
-["2015/10/31 15:40:32","","","",""],
-["2015/10/31 17:22:47","2015/10/31 17:45:09","2015/10/31 17:56","2015/10/31 17:56","2015/10/31 20:02:20"],
-["2015/10/31 19:46:28","2015/10/31 20:02","2015/10/31 20:12:36","","2015/10/31 23:57:47"],
-["2015/10/31 20:31:52","2015/10/31 20:47:49","2015/10/31 20:54:23","","2015/10/31 22:43:55"],
-["2015/10/31 21:47:35","2015/10/31 21:57:07","2015/10/31 21:57:07","","2015/10/31 22:18:54"],
-["2015/10/31 22:34:22","2015/10/31 23:02:52","2015/10/31 23:02:52","","2015/10/31 23:39:49"],
-["2015/10/31 23:04:01","2015/10/31 23:12:43","2015/10/31 23:21","","2015/11/01 1:59:26"]
-];
-
 //設定項目
 var xoffset = strtotime("2015/10/30 14:00:00");
 var xnow = strtotime("2015/10/30 23:59:59");
@@ -39,93 +5,155 @@ var timespan = 12;//１２時間分を表示する。
 var lineSpace = 3;//ライン同士のスペース
 var lineHeight = 5;//ラインの縦幅
 var yoffset = 30;
+var svgWidth = 720;
+var svgHeight = 160;
 
 
+
+
+
+
+
+mysvg=d3.select("#graph")
+	.append("svg")
+	.attr("width",svgWidth)
+	.attr("height",svgHeight)
+	.attr("border","1px solid black")
 //細かい計算。
-var svgWidth = 720;//d3.select("#myGraph").style("width");//width(); // 720
-var svgHeight = 640; //d3.select("#myGraph").style("height"); // 640
-
 var ySpace = lineSpace + lineHeight;
-
 var widthRatio = timespan*60*60/svgWidth;
 var nowposx = (xnow-xoffset)/widthRatio;
-
 var xLast = xoffset + timespan*60*60;
+var carray = [[nowposx,28], [nowposx,svgHeight]];
 
+beg = xoffset;
+end = xLast;
+var dataSet = [300,130,5,60,240];
+//搬送中,搬送遅れ,診察待ち,診察中
+var col = ["#AEC1E3","#AAB1B3","#FFE600","#009F8C"];
 var rectArray=new Array();
-for(var a=0;a<timeCourse.length;a++){
-	var nyuden = strtotime(timeCourse[a][0]);
-	var yotei = strtotime(timeCourse[a][1]);//予定来院時間
-	var uketuke = strtotime(timeCourse[a][2]);//受付時刻
-	var kaisi = strtotime(timeCourse[a][3]);//開始時刻
-	var syuryo = strtotime(timeCourse[a][4]);//終了時刻
-	var r1;
-	//救急隊の搬送時間。
-	if(uketuke != 0){
-		r1 = new myRect(nyuden,(yotei>uketuke ? uketuke : yotei) , a*ySpace, col[0]);
-	}else{
-		r1 = new myRect(nyuden, yotei, a*ySpace, col[0]);
-	}
-	rectArray.push(r1);
-	//救急隊、おくれ時間。(or 受付がまだされていない　の時間)
-	if(yotei < xnow){
-		if(uketuke == 0){
-			r1 = new myRect(yotei, xnow, a*ySpace,col[1]);
+
+var timeCourse = [];
+d3.text("./data.csv",function(error,text){
+	var data = d3.csv.parseRows(text, function(d){
+		return [d[0],d[1],d[2],d[3],d[4]];
+	});
+	timeCourse = data;
+	//時間経過でソートする。
+	timeCourse.sort(function(a,b){
+		if(a[0] > b[0]) return 1;
+		if(a[0] < b[0]) return -1;
+		if(a[3] > b[3]) return 1;
+		if(a[3] < b[3]) return -1;
+		return 0;
+	})
+	var rowPos = 0;
+	for(var a=0;a<timeCourse.length;a++){
+		//レンジに入っていないものをまず吹っ飛ばす。
+		var IsInRange = false;
+		for(var k=0;k<5;k++){
+			var targetTime = strtotime(timeCourse[a][k]);
+			if(targetTime > 0 && targetTime <= end && targetTime >= beg){
+				IsInRange = true;
+			}
+		}
+		if(!IsInRange){
+			continue;
+		}
+		var nyuden = strtotime(timeCourse[a][0]);//入電時間
+		var yotei = strtotime(timeCourse[a][1]);//予定来院時間
+		var uketuke = strtotime(timeCourse[a][2]);//受付時刻
+		var kaisi = strtotime(timeCourse[a][3]);//開始時刻
+		var syuryo = strtotime(timeCourse[a][4]);//終了時刻
+		var r1;
+		if(yotei == 0){//予定時刻の入っていないデータを飛ばす。(つまり、多分来院していない。)
+			continue;
+		}else if(nyuden > uketuke+12*60*60){
+			continue;//受付時間が間違っていると思われる。
+		}else if(nyuden + yotei + uketuke + kaisi + syuryo == 0){//なにもはいってねえじゃねーか！
+			continue;
+		}
+		console.log(timeCourse[a]);
+		if(uketuke == 0 && uketuke > yotei*30*60){//受付時間が入っておらず、予定を大幅に過ぎている場合は、入れ損ねとみなす。
+			uketuke = yotei;
+		}
+
+		console.log(kaisi);
+		//救急隊の搬送時間。
+		if(uketuke != 0){
+			r1 = new myRect(nyuden,(yotei>uketuke ? uketuke : yotei) , rowPos*ySpace, col[0]);
 		}else{
-			r1 = new myRect(yotei, (xnow > uketuke ? uketuke : xnow) , a*ySpace, col[1]);
+			r1 = new myRect(nyuden, yotei, rowPos*ySpace, col[0]);
 		}
 		rectArray.push(r1);
-	}
-	//待ち時間 受付がされている時に発動。
-	if(uketuke != 0
-		 && (kaisi == 0 || kaisi > uketuke)){
-
-		if(kaisi == 0){
-			r1 = new myRect(uketuke,xnow, a*ySpace, col[2]);//まだ診察されていない状態。
-		}else{
-			r1 = new myRect(uketuke, kaisi, a*ySpace, col[2]);//開始されている場合。
+		//救急隊、おくれ時間。(or 受付がまだされていない　の時間)
+		if(yotei < xnow){
+			if(uketuke == 0){
+				r1 = new myRect(yotei, xnow, rowPos*ySpace,col[1]);
+			}else{
+				r1 = new myRect(yotei, (xnow > uketuke ? uketuke : xnow) , rowPos*ySpace, col[1]);
+			}
+			rectArray.push(r1);
 		}
-		rectArray.push(r1);
-	}
-	//診察時間バー　開始されている時に発動。
-	if(kaisi != 0){
-		if(syuryo == 0){
-			r1 = new myRect(kaisi,xnow, a*ySpace, col[3]);
-		}else{
-			r1 = new myRect(kaisi,syuryo, a*ySpace, col[3]);
+		//待ち時間 受付がされている時に発動。
+		if(uketuke != 0){
+			if(kaisi == 0){//まだ開始されていない。
+				r1 = new myRect(uketuke, xnow, rowPos*ySpace, col[2]);//まだ診察されていない状態。
+				rectArray.push(r1);
+			}else if(kaisi > uketuke){//待ち時間が発生していた。
+				r1 = new myRect(uketuke, kaisi, rowPos*ySpace, col[2]);//開始されている場合。
+				rectArray.push(r1);
+			}
 		}
-		rectArray.push(r1);
+
+
+		//診察時間バー　開始されている時に発動。
+		if(kaisi != 0){
+			if(syuryo == 0){
+				r1 = new myRect(kaisi,xnow, rowPos*ySpace, col[3]);
+			}else{
+				r1 = new myRect(kaisi,syuryo, rowPos*ySpace, col[3]);
+			}
+			rectArray.push(r1);
+		}/*else{//開始されていない。または入れ損ね
+			if(syuryo == 0){//終了されていない、つまり診察中。
+				r1 = new myRect(uketuke,xnow, rowPos*ySpace, col[3]);
+			}else{
+				r1 = new myRect(uketuke,syuryo, rowPos*ySpace, col[3]);
+			}
+		}*/
+		rowPos++;
 	}
-}
+	console.log(rectArray);
 
-d3.select("#myGraph")
-	.selectAll("rect")
-	.data(rectArray)
-	.enter()
-	.append("rect")
-	.attr("x",function(d,i){
-//		console.log((d.x-xoffset)/60);
-		return (d.x-xoffset > 0 ? (d.x-xoffset)/widthRatio : 0);
-	})
-	.attr("y",function(d,i){
-		return d.y + yoffset;
-	})
-	.attr("height",lineHeight+"px")
-	.attr("width","0px")
-	.transition()
-	.delay(function(d,i){return i*20;})
-	.duration(500)
-	.attr("width",function(d,i){
-		return (d.width/widthRatio >0 ? d.width/widthRatio : 0)+"px";
-	})
-	.style("fill",function(d,i){
-		return d.col;
-	})
+//svg drawing starts here...
+	mysvg.selectAll("rect")
+		.data(rectArray)
+		.enter()
+		.append("rect")
+		.attr("x",function(d,i){
+	//		console.log((d.x-xoffset)/60);
+			return (d.x-xoffset > 0 ? (d.x-xoffset)/widthRatio : 0);
+		})
+		.attr("y",function(d,i){
+			return d.y + yoffset;
+		})
+		.attr("height",lineHeight+"px")
+		.attr("width","0px")
+		.transition()
+		.delay(function(d,i){return i*30;})
+		.duration(50)
+		.attr("width",function(d,i){
+			return (d.width/widthRatio >0 ? d.width/widthRatio : 0)+"px";
+		})
+		.style("fill",function(d,i){
+			return d.col;
+		})
 
 
-var carray = [[nowposx,0], [nowposx,svgHeight]];
 
-//now line
+//ラインを書くーーーーーーー
+//prepare now line
 var line=d3.svg.line()
 	.x(function(d,i){
 		return carray[i][0];
@@ -135,13 +163,16 @@ var line=d3.svg.line()
 	})
 	.interpolate("linear")
 
-d3.select("#myGraph")
-	.append("path")
-	.attr("d",line(carray))
-	.attr("stroke","black")
-	.attr("stroke-width",2)
 
-//時刻目盛り。
+	mysvg.append("path")
+		.attr("d",line(carray))
+		.attr("stroke","black")
+		.attr("stroke-width",2)
+
+	});
+
+
+//時刻目盛りを書くーーーーー
 var xScale = d3.time.scale()
 	.domain([
 		new Date(xoffset*1000),
@@ -149,10 +180,9 @@ var xScale = d3.time.scale()
 		])
 	.range([0,svgWidth]);
 
-d3.select("#myGraph")
-	.append("g")
+mysvg.append("g")
 	.attr("class","axis")
-	.attr("transform","translate(0,20)")
+	.attr("transform","translate(0,28)")
 	.call(d3.svg.axis()
 			.scale(xScale)
 			.orient("top")
@@ -161,6 +191,22 @@ d3.select("#myGraph")
 			.outerTickSize(0)
 			.tickPadding(3)
 	)
+	.style("stroke-width",2)
+
+mysvg.append("g")
+	.attr("class","axis")
+	.attr("transform","translate(0,10)")
+	.call(d3.svg.axis()
+			.scale(xScale)
+			.ticks(d3.time.hour, 6)
+			.orient("top")
+			.tickFormat(d3.time.format('%m/%d'))
+			.innerTickSize(0)
+			.outerTickSize(0)
+			.tickPadding(0)
+	)
+	.style("stroke-width",0)
+
 
 
 
@@ -194,6 +240,8 @@ function myRect(beg,end,y,col){//コンストラクタ
 }
 
 function strtotime(str){
+	if(str == ""){return 0;}
 	var ret = new Date(str).getTime()/1000;
 	return ret;
 }
+

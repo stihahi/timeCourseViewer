@@ -5,14 +5,32 @@
 		<title>D3</title>
 		<style>
 		</style>
-		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="./lib/d3.v3.min.js" charset="utf-8"></script>
+		<script src="./lib/jquery-2.1.4.min.js"></script>
+		<!--script to save to png -->
+		<script type="text/javascript" src="http://gabelerner.github.io/canvg/rgbcolor.js"></script> 
+		<script type="text/javascript" src="http://gabelerner.github.io/canvg/StackBlur.js"></script>
+		<script type="text/javascript" src="http://gabelerner.github.io/canvg/canvg.js"></script> 
+		<!-- to here. -->
+
 		<link rel="stylesheet" type="text/css" href="./style.css">
 
 	</head>
 	<body>
 		<h1>Title</h1>
-		<svg id="myGraph"></svg>
-		<button id="updateButton">更新</button>
+		<div id="graph">
+		</div>
+
+
+		<div id="canvasArea">
+		  <canvas id="canvas" width="720px" height="320px"></canvas>
+		</div>
+
+
+		<div id="footer">
+		  <button type="button" class="btn btn-danger" onclick="createDownloadLink()"> Download Link</button>
+		</div>
 		<script src="./d3code.js"></script>
+		<script src="./svgSaver.js"></script>
 	</body>
 </html>
